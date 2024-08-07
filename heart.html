@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Love Confession</title>
+    <style>
+        @import url('https://u4.iqiyipic.com/image/20240318/9c/10/pv_3799558810439700_d_601_480_270.jpg');
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Press Start 2P', cursive;
+            background: radial-gradient(circle at center, #000, #001, #002, #010, #030);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff, 0 0 80px #0ff;
+        }
+
+        .container {
+            text-align: center;
+            animation: glow 1s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 15px #0ff, 0 0 20px #0ff;
+            }
+            to {
+                text-shadow: 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff, 0 0 50px #0ff;
+            }
+        }
+
+        .heart {
+            position: relative;
+            display: inline-block;
+            width: 100px;
+            height: 90px;
+            background: #0ff;
+            margin: 0 auto;
+            transform: rotate(-45deg);
+            animation: heartbeat 1s infinite alternate;
+            box-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff, 0 0 80px #0ff;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #0ff;
+        }
+
+        .heart::before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 50px;
+            top: 0;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1) rotate(-45deg);
+            }
+            100% {
+                transform: scale(1.2) rotate(-45deg);
+            }
+        }
+
+        .message {
+            margin-top: 30px;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .background-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .background-animation div {
+            position: absolute;
+            bottom: -150px;
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 255, 255, 0.5);
+            animation: rise 5s infinite ease-in;
+        }
+
+        .background-animation div:nth-child(2) {
+            left: 20%;
+            width: 40px;
+            height: 40px;
+            animation-delay: 1s;
+            animation-duration: 8s;
+        }
+
+        .background-animation div:nth-child(3) {
+            left: 40%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 2s;
+            animation-duration: 7s;
+        }
+
+        .background-animation div:nth-child(4) {
+            left: 60%;
+            width: 35px;
+            height: 35px;
+            animation-delay: 3s;
+            animation-duration: 6s;
+        }
+
+        .background-animation div:nth-child(5) {
+            left: 80%;
+            width: 30px;
+            height: 30px;
+            animation-delay: 4s;
+            animation-duration: 9s;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .image-container {
+            margin-top: 20px;
+            animation: fadeIn 3s ease-in-out forwards;
+        }
+
+        .image-container img {
+            width: 200px;
+            height: auto;
+            border: 5px solid #0ff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #0ff, 0 0 40px #0ff;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background: #111;
+            border: 5px solid #0ff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 40px #0ff, 0 0 80px #0ff;
+            text-align: center;
+            z-index: 10;
+            animation: fadeInPopup 1s ease-in-out forwards;
+        }
+
+        .popup img {
+            width: 150px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
+        .popup button {
+            font-family: 'Press Start 2P', cursive;
+            padding: 10px 20px;
+            border: none;
+            background: #0ff;
+            color: #111;
+            cursor: pointer;
+            text-shadow: none;
+        }
+
+        .popup button:hover {
+            background: #0cc;
+        }
+
+        @keyframes fadeInPopup {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="background-animation">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div>
+<div class="container">
+    <div class="heart"></div>
+    <div class="message">
+        <h1>I Love You!</h1>
+        <p>You are the most special person in my life. Will you be mine?</p>
+    </div>
+    <div class="image-container">
+        <img src="your-image-url-here.jpg" alt="Special Image">
+    </div>
+</div>
+<div class="popup" id="popup">
+    <img src="your-clown-image-url-here.jpg" alt="Clown">
+    <p>Surprise! Just kidding!</p>
+    <button onclick="closePopup()">Close</button>
+</div>
+<script>
+    function showPopup() {
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+
+    setTimeout(showPopup, 3000);
+</script>
+</body>
+</html>
