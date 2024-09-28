@@ -1603,6 +1603,8 @@ public class LeetCode {
     public static void main(String[] args) {
         String[] list = {"flower", "flow", "flight"};
         System.out.println(longestCommonPrefix(list));
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        stack.push(null);
 
         System.out.println("abcd".indexOf("abcd"));
         System.out.println(Integer.parseInt("00001"));
@@ -2166,6 +2168,425 @@ public class LeetCode {
         return 0;
 
     }
+
+//    public int coinChange(int[] coins, int amount) {
+//        int[] dp = new int[amount+1];
+//        Arrays.fill(dp,amount+1);
+//        dp[0] = 0;
+//        for (int i = 1 ; i <= amount ; i++){
+//            for (int coin : coins){
+//                if (coin <= i){
+//                    dp[i] = Math.min(dp[i],dp[i-coin] + 1);
+//                }
+//            }
+//        }
+//        return dp[amount] == amount + 1 ? -1 : dp[amount];
+//    }
+
+
+    public ListNode trainingPlan(ListNode head, int cnt) {
+        ListNode cur = head;
+        ListNode preCnt = head;
+        for (int i = 0 ; i < cnt ; i++){
+            cur = cur.next;
+        }
+        while (cur != null){
+            cur = cur.next;
+            preCnt = preCnt.next;
+        }
+        return preCnt;
+    }
+
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> list = new ArrayList<>();
+        ans.add(list);
+        for ( int i = 0 ; i < nums.length ; i++){
+            List<List<Integer>> temp = new ArrayList<>();
+            for (List<Integer> l : ans){
+                List<Integer> list1 = new ArrayList<>(l);
+                list1.add(nums[i]);
+                temp.add(list1);
+            }
+            ans.addAll(temp);
+        }
+        return ans;
+    }
+
+    Map<Integer,Integer> index = new HashMap<>();
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        for (int i = 0; i < inorder.length; i++) {
+            index.put(inorder[i],i);
+        }
+        return buildTreeHelper(preorder,0,preorder.length-1,0,inorder.length-1);
+    }
+
+    public TreeNode buildTreeHelper(int[] preorder, int preStart, int preEnd, int inStart, int inEnd){
+        if (preStart > preEnd){
+            return null;
+        }
+        int rootVal = preorder[preStart];
+        TreeNode root = new TreeNode(rootVal);
+        int rootIndex = index.get(rootVal);
+        int leftSize = rootIndex - inStart;
+
+        root.left = buildTreeHelper(preorder,preStart+1,preStart+leftSize,inStart,rootIndex-1);
+        root.right = buildTreeHelper(preorder,preStart+leftSize+1,preEnd,rootIndex+1,inEnd);
+        return root;
+    }
+
+//    Deque<Integer> numStack;
+//    Deque<Integer> minStack;
+//    public MinStack() {
+//        numStack = new ArrayDeque<>();
+//        minStack = new ArrayDeque<>();
+//    }
+//
+//    public void push(int val) {
+//        numStack.push(val);
+//        if (minStack.isEmpty() || minStack.peek() >= val){
+//            minStack.push(val);
+//        }else {
+//            minStack.push(minStack.peek());
+//        }
+//    }
+//
+//    public void pop() {
+//        numStack.pop();
+//        minStack.pop();
+//    }
+//
+//    public int top() {
+//        return numStack.peek();
+//    }
+//
+//    public int getMin() {
+//        return minStack.peek();
+//    }
+
+
+    public int rand10() {
+        int row, col, idx;
+        do {
+            row = rand7();
+            col = rand7();
+            idx = col + (row - 1) * 7;
+        } while (idx > 40);
+        return 1 + idx % 10;
+    }
+
+    public int rand7(){
+        return 0;
+    }
+
+
+    public String reverseWords(String s) {
+        s.trim();
+        List<String> words = Arrays.asList(s.split("\\s+"));
+        Collections.reverse(words);
+        return String.join(" ",words);
+    }
+
+
+    public boolean isSymmetric(TreeNode root) {
+        return check(root,root);
+    }
+
+    public boolean check(TreeNode u, TreeNode v){
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(u);
+        q.offer(v);
+        while (!q.isEmpty()){
+            u = q.poll();
+            v = q.poll();
+            if (u == null && v == null){
+                continue;
+            }
+            if ((u == null || v == null) || (u.val != v.val)){
+                return false;
+            }
+            q.offer(u.left);
+            q.offer(v.right);
+            q.offer(u.right);
+            q.offer(v.left);
+        }
+        return true;
+    }
+
+    public int sumNumbers(TreeNode root) {
+        return dfs(root,0);
+    }
+
+    public int dfs(TreeNode root,int preSum){
+        if (root == null){
+            return 0;
+        }
+        preSum = preSum * 10 + root.val;
+        if (root.left == null && root.right == null){
+            return preSum;
+        }else {
+            return dfs(root.left,preSum) + dfs(root.right,preSum);
+        }
+    }
+
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> ans = new ArrayList<>();
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        stack.push(root);
+        while (!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            if (node != null){
+                ans.add(node.val);
+                if (node.right != null){
+                    stack.push(node.right);
+                }
+                if (node.left != null){
+                    stack.push(node.left);
+                }
+            }
+        }
+        return ans;
+    }
+
+    public void dfs(TreeNode root,List<Integer> ans){
+        if (root == null){
+            return;
+        }
+        ans.add(root.val);
+        dfs(root.left,ans);
+        dfs(root.right,ans);
+    }
+
+    public int maxDepth(TreeNode root) {
+        if (root == null){
+            return 0;
+        }
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        return Math.max(left,right) + 1;
+    }
+
+    public boolean isBalanced(TreeNode root) {
+        if (root == null){
+            return true;
+        }
+        return Math.abs(height(root.left) - height(root.right)) <= 1 && isBalanced(root.left) && isBalanced(root.right);
+    }
+
+    int d = 0;
+    public int height(TreeNode root){
+        if (root == null){
+            return 0;
+        }
+        int l = height(root.left);
+        int r = height(root.right);
+        int tempd = l + r + 1;
+        d = Math.max(d,tempd);
+        return  Math.max(l,r) + 1;
+    }
+
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        List<Integer> combine = new ArrayList<>();
+        dfs(candidates,target,0,combine,ans);
+        return ans;
+    }
+
+    public void dfs(int[] candidates,int target,int index,List<Integer> combine,List<List<Integer>> ans){
+        if(index == candidates.length){
+            return;
+        }
+        if (target == 0){
+            ans.add(new ArrayList<>(combine));
+            return;
+        }
+        // 不选当前索引的值
+        dfs(candidates,target,index+1,combine,ans);
+        // 选当前索引的值
+        if(target - candidates[index] >= 0){
+            combine.add(candidates[index]);
+            dfs(candidates,target - candidates[index],index,combine,ans);
+            // 回溯
+            combine.remove(combine.size() - 1);
+        }
+
+    }
+
+    public boolean isValidBST(TreeNode root) {
+        return help(root,Long.MIN_VALUE,Long.MAX_VALUE);
+    }
+
+    public boolean help(TreeNode treeNode,long lower,long upper){
+        if (treeNode == null){
+            return true;
+        }
+        if (treeNode.val < lower || treeNode.val > upper){
+            return false;
+        }
+        return help(treeNode.left,lower,treeNode.val) && help(treeNode.right,treeNode.val,upper);
+    }
+
+    public void rotate(int[][] matrix) {
+        int n = matrix.length;
+        int [][] matrix_new = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix_new[j][n-1-i] = matrix[i][j];
+            }
+        }
+
+        // copy back
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = matrix_new[i][j];
+            }
+        }
+    }
+
+    public int[] searchRange(int[] nums, int target) {
+        int left = binarysearch(nums,target,true);
+        int right = binarysearch(nums,target,false) - 1;
+        if (left <= right && right < nums.length && nums[left] == target && nums[right] == target){
+            return new int[]{left,right};
+        }
+        return new int[]{-1,-1};
+    }
+
+    public int binarysearch(int[] nums,int target,boolean lower){
+        int left = 0,right = nums.length - 1,ans = nums.length;
+        while (left <= right){
+            int mid = (left + right)/2;
+            if (nums[mid] > target || (lower && nums[mid] >= target)) {
+                right = mid - 1;
+                ans = mid;
+            }else{
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    public int findPeakElement(int[] nums) {
+        int n = nums.length;
+        int left = 0,right = n - 1;
+        int ans = 0;
+        while (left <= right){
+            int mid = (left + right) / 2;
+            if (compare(nums,mid-1,mid) < 0 && compare(nums,mid,mid+1) > 0){
+                ans = mid;
+                break;
+            }
+            if (compare(nums,mid,mid+1) < 0) {
+                left = mid + 1;
+            }else {
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+
+    // 处理num[-1] == num[n] == 负无穷，返回二元数组，[0/1,nums[idx]],0表示边界
+    public int[] get(int[] nums,int idx){
+        if (idx == -1 || idx == nums.length){
+            return new int[]{0,0};
+        }
+        return new int[]{idx,nums[idx]};
+    }
+
+    //idx1 和 idx2 比较 >:1,=:0,<:-1
+    public int compare(int[] nums,int idx1,int idx2){
+        int [] num1 = get(nums, idx1);
+        int [] num2 = get(nums,idx2);
+        if(num1[0] != num2[0]){
+            return num1[0] > num2[0]? 1: -1;
+        }
+        if (num1[1] == num2[1]){
+            return 0;
+        }
+        return num1[1] > num2[2] ? 1 : -1;
+    }
+
+    public int minPathSum(int[][] grid) {
+        int m = grid.length,n = grid[0].length;
+        int [][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n ; j++) {
+                if (i == 0 && j == 0){
+                    dp[i][j] = grid[i][j];
+                }else if (i == 0) {
+                    dp[i][j] = dp[i][j - 1] + grid[i][j];
+                }else if (j == 0) {
+                    dp[i][j] = dp[i - 1][j] + grid[i][j];
+                }else {
+                    dp[i][j] = Math.min(dp[i-1][j],dp[i][j-1]) + grid[i][j];
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+
+
+    public String decodeString(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == ']') {
+                List<Character> list = new ArrayList<>();
+                while (stack.peek() != '[') {
+                    list.add(stack.pop());
+                }
+                // pop '['
+                stack.pop();
+                int base = 1, k = 0;
+                // get k
+                while (!stack.isEmpty() && Character.isDigit(stack.peek())) {
+                    k += (stack.pop() - '0') * base;
+                    base *= 10;
+                }
+                while (k-- > 0) {
+                    // 从栈里取出来时是逆序，现在倒过来放回去
+                    for (int j = list.size() - 1; j >= 0; j--) {
+                        stack.push(list.get(j));
+                    }
+                }
+            }else {
+                stack.push(s.charAt(i));
+            }
+        }
+        char[] ans = new char[stack.size()];
+        // 栈是先进后出，再掉转一次
+        for (int i = ans.length - 1; i >= 0; i--) {
+            ans[i] = stack.pop();
+        }
+        return new String(ans);
+    }
+
+    List<List<Integer>> ret = new LinkedList<List<Integer>>();
+    Deque<Integer> path = new LinkedList<Integer>();
+
+    public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+        dfs1(root,targetSum);
+        return ret;
+    }
+
+    public void dfs1(TreeNode node , int targetSum){
+        if (node == null){
+            return;
+        }
+        // 取当前节点
+        path.offerLast(node.val);
+        targetSum -= node.val;
+        if (node.left == null && node.right==null && targetSum == 0){
+            ret.add(new LinkedList<Integer>(path));
+        }
+        dfs1(node.left,targetSum);
+        dfs1(node.right,targetSum);
+        // 恢复现场
+        path.pollLast();
+    }
+
 
 
 
